@@ -1,0 +1,32 @@
+.input-container {
+    margin-bottom: 20px;
+
+    textarea {
+        font-family: sans-serif;
+    }
+
+    input,
+    textarea {
+        border: 0;
+        border-left: 4px solid transparent;
+        border-radius: 4px;
+        background-color: #f1f1f1;
+        font-size: 16px;
+        padding: 8px;
+        width: 260px;
+
+        &.invalid {
+            border-left-color: red;
+        }
+        
+        &[type='checkbox'] {
+            width: auto;
+            margin-right: 10px;
+        }
+    }
+
+    .invalid-text {
+        color: red;
+        font-size: 14px;
+    }
+}

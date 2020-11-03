@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateForm} from '../redux/signUp/actions';
+import Button from './Button';
 import Input from './Input';
 
 const SignUpForm = () => {    
@@ -60,9 +61,9 @@ const SignUpForm = () => {
             email: isValidEmail(form.email),
             password: isValidPassword(form.password),
             repeatPassword: isValidRepeatPassword(form.password, form.repeatPassword),
-            street: isValidText(form.lastName, 4),
-            zip: isValidText(form.lastName, 5),
-            city: isValidText(form.lastName, 4)          
+            street: isValidText(form.street, 4),
+            zip: isValidText(form.zip, 5),
+            city: isValidText(form.city, 4)       
         }
 
         isValid.allValid = 
@@ -150,7 +151,7 @@ const SignUpForm = () => {
                         name="zip"
                         value={form.zip}
                         isValid={isValid.zip}
-                        validationText="Street should have at least 5 characters!"
+                        validationText="Zip should have at least 5 characters!"
                         handleChange={e => handleChange('zip', e)} />
                     <Input
                         label="City"
@@ -165,10 +166,12 @@ const SignUpForm = () => {
                         type="textarea"
                         name="additional"
                         value={form.additional}
+                        rows={6}
+                        cols={16}
                         handleChange={e => handleChange('additional', e)} />    
                 </React.Fragment>
             }
-            <button disabled={!isValid.allValid} type="button">Sign Up</button>
+            <Button allValid={!isValid.allValid} />
 		</form>
     );
 }

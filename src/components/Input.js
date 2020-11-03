@@ -1,4 +1,5 @@
 import React from 'react';
+import './Input.scss';
 
 const Input = props => {
     const {label, type, name, value, handleChange, rows, cols} = props;
@@ -7,9 +8,9 @@ const Input = props => {
 
     if (type === 'checkbox') {
         return (
-            <div>
+            <div className="input-container">
                 <label>
-                    <input
+                    <input                                          
                         type={type}                    
                         name={name}
                         checked={value}
@@ -22,31 +23,32 @@ const Input = props => {
 
     if (type === 'textarea') {
         return (
-            <div>
+            <div className="input-container">
                 <label>
-                    {label}:
-                    <textarea
+                    <p>{label}</p>
+                    <textarea                        
                         cols={cols}
                         rows={rows}
                         name={name}
                         value={value}
                         onChange={handleChange} />
-                    {!isValid && <p style={{color: 'red'}}>{validationText}</p>}     
+                    {!isValid && <p className="invalid-text">{validationText}</p>}     
                 </label>
             </div>
         )
     }
 
     return (
-        <div>
+        <div className="input-container">
             <label>
-                {label}:
+                <p>{label}</p>
                 <input
+                    className={!isValid ? "invalid" : undefined}
                     type={type}
                     name={name}
                     value={value}
                     onChange={handleChange} />
-                {!isValid && <p style={{color: 'red'}}>{validationText}</p>}     
+                {!isValid && <p className="invalid-text">{validationText}</p>}     
             </label>
         </div>
     );
