@@ -5,7 +5,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 
 const middlewares = [signUpMiddleware];
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   signUp: signUpReducer,
 });
 

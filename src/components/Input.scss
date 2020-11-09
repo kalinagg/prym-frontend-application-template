@@ -5,6 +5,11 @@
         font-family: sans-serif;
     }
 
+    label:not(.checkbox-label) {
+        display: block;
+        margin-bottom: 6px;
+    }
+
     input,
     textarea {
         border: 0;
@@ -13,7 +18,8 @@
         background-color: #f1f1f1;
         font-size: 16px;
         padding: 8px;
-        width: 260px;
+        width: 100%;
+        box-sizing: border-box;
 
         &.invalid {
             border-left-color: red;

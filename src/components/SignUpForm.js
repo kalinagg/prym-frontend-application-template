@@ -3,172 +3,189 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateForm} from '../redux/signUp/actions';
 import Button from './Button';
 import Input from './Input';
+import './SignUpForm.scss';
+import {validate} from './SignUpFormValidation';
 
 const SignUpForm = () => {    
     let initialForm = useSelector(state => state.signUp.form);
 
     initialForm = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        nickname: '',
-        password: '',
-        repeatPassword: '',
-        street: '',
-        houseNumber: '',
-        zip: '',
-        city: '',
-        additional: '',
-        showAddress: false,
+        firstName: {
+            value: '',
+            touched: false
+        },
+        lastName: {
+            value: '',
+            touched: false
+        },
+        email: {
+            value: '',
+            touched: false
+        },
+        nickname: {
+            value: '',
+            touched: false
+        },
+        password: {
+            value: '',
+            touched: false
+        },
+        repeatPassword: {
+            value: '',
+            touched: false
+        },
+        street: {
+            value: '',
+            touched: false
+        },
+        houseNumber: {
+            value: '',
+            touched: false
+        },
+        zip: {
+            value: '',
+            touched: false
+        },
+        city: {
+            value: '',
+            touched: false
+        },
+        additional: {
+            value: '',
+            touched: false
+        },
+        showAddress: {
+            value: false,
+            touched: false
+        },
         ...initialForm
     }
+
     
     const [form, setForm] = useState(initialForm);
     const dispatch = useDispatch();
 
-    const handleChange = (name, e) => {   
+    const handleChange = e => {
         const updatedForm = {
             ...form,
-            [name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value
+            [e.target.name]: {
+                value: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+                touched: true
+            }
         }
         
         setForm(updatedForm);
         dispatch(updateForm(updatedForm));
     }
 
-    const isValidEmail = email => {
-        const re = /\w+@\w+\.\w+(\.\w+)*/;
-        return re.test(email);
-    }
-
-    const isValidText = (text, chars) => {
-        return text.length >= chars;
-    }
-
-    const isValidPassword = password => {
-        const re = /.*\d.*\d.*/; // at least 2 digits
-        return password.length >= 6 && re.test(password);
-    }
-
-    const isValidRepeatPassword = (password, repeatPassword) => {
-        return password === repeatPassword;
-    }
-
-    const validate = form => {
-        const isValid = {
-            firstName: isValidText(form.firstName, 2),
-            lastName: isValidText(form.lastName, 2),
-            email: isValidEmail(form.email),
-            password: isValidPassword(form.password),
-            repeatPassword: isValidRepeatPassword(form.password, form.repeatPassword),
-            street: isValidText(form.street, 4),
-            zip: isValidText(form.zip, 5),
-            city: isValidText(form.city, 4)       
-        }
-
-        isValid.allValid = 
-            isValid.firstName && isValid.lastName && isValid.email && isValid.password && isValid.repeatPassword
-            && (!form.showAddress || (isValid.street && isValid.zip && isValid.city));
-        
-        return isValid;
-    }
-
     const isValid = validate(form);
 
     return (        
-        <form noValidate>
+        <form noValidate className="sign-up-form">
             <Input
+                id="firstName"
                 label="First name"
                 type="text"
                 name="firstName"
-                value={form.firstName}
+                value={form.firstName.value}
                 isValid={isValid.firstName}
                 validationText="First name should be at least 2 characters!"
-                handleChange={e => handleChange('firstName', e)} />
+                handleChange={handleChange} />
             <Input
+                id="lastName"
                 label="Last name"
                 type="text"
                 name="lastName"
-                value={form.lastName}
+                value={form.lastName.value}
                 isValid={isValid.lastName}
                 validationText="Last name should be at least 2 characters!"
-                handleChange={e => handleChange('lastName', e)} />
+                handleChange={handleChange} />
             <Input
+                id="nickname"
                 label="Nick name"
                 type="text"
                 name="nickname"
-                value={form.nickname}
-                handleChange={e => handleChange('nickname', e)} />        
+                value={form.nickname.value}
+                handleChange={handleChange} />        
 			<Input
+                id="email"
                 label="Email"
                 type="email"
                 name="email"
-                value={form.email}
+                value={form.email.value}
                 isValid={isValid.email}
                 validationText="Email is not valid!"
-                handleChange={e => handleChange('email', e)} />
+                handleChange={handleChange} />
             <Input
+                id="password"
                 label="Password"
                 type="password"
                 name="password"
-                value={form.password}
+                value={form.password.value}
                 isValid={isValid.password}
                 validationText="Password should have minimium 6 characters of which 2 numbers!"
-                handleChange={e => handleChange('password', e)} />
+                handleChange={handleChange} />
             <Input
+                id="repeatPassword"
                 label="Repeat password"
                 type="password"
                 name="repeatPassword"
-                value={form.repeatPassword}
+                value={form.repeatPassword.value}
                 isValid={isValid.repeatPassword}
-                validationText="Repeat password should the same as password!"
-                handleChange={e => handleChange('repeatPassword', e)} />
+                validationText="Repeat password should be the same as password!"
+                handleChange={handleChange} />
             <Input
-                label="Show Address"
+                id="showAddress"
+                label="Show address"
                 type="checkbox"
                 name="showAddress"
-                value={form.showAddress}
-                handleChange={e => handleChange('showAddress', e)} />
-            {form.showAddress &&
+                value={form.showAddress.value}
+                handleChange={handleChange} />
+            {form.showAddress.value &&
                 <React.Fragment>
                     <Input
+                        id="street"
                         label="Street"
                         type="text"
                         name="street"
-                        value={form.street}
+                        value={form.street.value}
                         isValid={isValid.street}
                         validationText="Street should have at least 4 characters!"
-                        handleChange={e => handleChange('street', e)} />
+                        handleChange={handleChange} />
                     <Input
+                        id="houseNumber"
                         label="House / Apartment"
                         type="text"
                         name="houseNumber"
-                        value={form.houseNumber}                
-                        handleChange={e => handleChange('houseNumber', e)} />
+                        value={form.houseNumber.value}                
+                        handleChange={handleChange} />
                     <Input
+                        id="zip"
                         label="Zip"
                         type="text"
                         name="zip"
-                        value={form.zip}
+                        value={form.zip.value}
                         isValid={isValid.zip}
                         validationText="Zip should have at least 5 characters!"
-                        handleChange={e => handleChange('zip', e)} />
+                        handleChange={handleChange} />
                     <Input
+                        id="city"
                         label="City"
                         type="text"
                         name="city"
-                        value={form.city}
+                        value={form.city.value}
                         isValid={isValid.city}
                         validationText="City should have at least 4 characters!"
-                        handleChange={e => handleChange('city', e)} />
+                        handleChange={handleChange} />
                     <Input
+                        id="additonal"
                         label="Additional"
                         type="textarea"
                         name="additional"
-                        value={form.additional}
+                        value={form.additional.value}
                         rows={6}
                         cols={16}
-                        handleChange={e => handleChange('additional', e)} />    
+                        handleChange={handleChange} />    
                 </React.Fragment>
             }
             <Button allValid={!isValid.allValid} />

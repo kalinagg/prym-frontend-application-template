@@ -6,9 +6,11 @@
     font-size: 18px;
     padding: 12px 18px;
     color: white;
-    width: 100%; 
+    width: 100%;
+    cursor: pointer;
 
     &:disabled {
         background-color: rgba(37, 61, 121, .3);
+        cursor: default;
     }
 }
